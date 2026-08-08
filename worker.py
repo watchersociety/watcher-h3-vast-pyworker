@@ -3,11 +3,20 @@ import os
 from vastai import BenchmarkConfig, HandlerConfig, LogActionConfig, Worker, WorkerConfig
 
 
+REFERENCE_PIXELS = 1344 * 768
+DEFAULT_LOAD_UNITS_PER_OUTPUT_SECOND = 4000.0
+
+
 def video_workload(payload):
     width = float(payload.get("width", 1344))
     height = float(payload.get("height", 768))
     duration = float(payload.get("durationSeconds", 3))
-    return width * height * max(1.0, duration * 24.0)
+    units_per_second = float(os.environ.get(
+        "VAST_H3_LOAD_UNITS_PER_OUTPUT_SECOND",
+        str(DEFAULT_LOAD_UNITS_PER_OUTPUT_SECOND),
+    ))
+    pixel_scale = max(1.0, (width * height) / REFERENCE_PIXELS)
+    return pixel_scale * max(1.0, duration) * units_per_second
 
 
 def build_worker():

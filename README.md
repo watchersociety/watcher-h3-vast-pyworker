@@ -8,3 +8,9 @@ Vast requires a benchmark before admitting a worker to the ready pool. Supply a
 fresh, one-use Watcher H3 request as base64 JSON in
 `VAST_H3_BENCHMARK_PAYLOAD_B64`. It runs once with no warmup or concurrency and
 must use newly minted input/output URLs. The value is never logged or committed.
+
+`video_workload` uses calibrated output-second load units rather than raw
+pixel-frame count. At the default 1344x768 profile, a three-second request is
+12,000 units and a ten-second request is 40,000 units. Override the calibration
+only with `VAST_H3_LOAD_UNITS_PER_OUTPUT_SECOND` and keep the control-plane
+request cost aligned with the same value.
