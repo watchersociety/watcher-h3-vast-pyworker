@@ -23,8 +23,8 @@ def build_worker():
             workload_calculator=video_workload,
         ), HandlerConfig(
             # PyWorker requires one benchmark handler before joining the pool.
-            # Qualify the verified runtime without embedding expiring Watcher
-            # URLs or producing an ungoverned video artifact.
+            # Qualify the already verified runtime without embedding expiring
+            # Watcher URLs or producing an ungoverned video artifact.
             route="/watcher/h3/benchmark",
             allow_parallel_requests=False,
             max_queue_time=60.0,
